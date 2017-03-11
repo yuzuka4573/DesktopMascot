@@ -73,11 +73,17 @@ namespace Desktop_Mascot
             int posX = this.Left + offsetX;
             int posY = this.Top + offsetY;
             //check position
-            if (posX < 0) posX = 0;
-            if (posY < 0) posY = 0;
+            posX = checkpos(posX);
+            posY = checkpos(posY);
             // move control
             this.Location = new Point(posX, posY);
             this.lastMousePosition = mp;
+        }
+
+        private int checkpos(int num)
+        {
+            if (num < 0) return 0;
+            else return num;
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
