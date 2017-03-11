@@ -18,6 +18,8 @@ namespace Desktop_Mascot
         public string path;
         public bool imgAct = true;
         public bool setFront = false;
+        public int PosX;
+        public int PosY;
 
         public class jsons
         {
@@ -27,6 +29,26 @@ namespace Desktop_Mascot
             public int posX { get; set; } //position X int
             public int posY { get; set; }//position Y int
         }
+
+        // Field which is holdning form 1 objects
+        private static Form1 _form1Instance;
+
+        // Properties for getting / setting form 1 objects
+        public static Form1 Form1Instance
+        {
+            get
+            {
+                return _form1Instance;
+            }
+            set
+            {
+                _form1Instance = value;
+            }
+        }
+
+
+
+
 
         public Form2()
         {
@@ -67,8 +89,13 @@ namespace Desktop_Mascot
             int offsetX = mp.X - this.lastMousePosition.X;
             int offsetY = mp.Y - this.lastMousePosition.Y;
 
+            int posX = this.Left + offsetX;
+            int posY = this.Top + offsetY;
+            //check position
+            if (posX < 0) posX = 0;
+            if (posY < 0) posY = 0;
             // move control
-            this.Location = new Point(this.Left + offsetX, this.Top + offsetY);
+            this.Location = new Point(posX, posY);
             this.lastMousePosition = mp;
         }
 
@@ -99,7 +126,18 @@ namespace Desktop_Mascot
             size_change(@path);
             //set background image 
             this.BackgroundImage = Image.FromFile(@path);
+            this.Location = new Point(PosX, PosY);
             //    Console.WriteLine("form size : " + this.Width + " / " + this.Height);
+        }
+
+        public void show(string path)
+        {
+            //clear form border
+            this.FormBorderStyle = FormBorderStyle.None;
+            //resize form
+            size_change(@path);
+            //set background image 
+            this.BackgroundImage = Image.FromFile(@path);
         }
 
         //resize form

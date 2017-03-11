@@ -70,8 +70,13 @@ namespace Desktop_Mascot
             int offsetX = mp.X - this.lastMousePosition.X;
             int offsetY = mp.Y - this.lastMousePosition.Y;
 
+            int posX = this.Left + offsetX;
+            int posY = this.Top + offsetY;
+            //check position
+            if (posX < 0) posX = 0;
+            if (posY < 0) posY = 0;
             // move control
-            this.Location = new Point(this.Left + offsetX, this.Top + offsetY);
+            this.Location = new Point(posX, posY);
             this.lastMousePosition = mp;
         }
 
@@ -105,12 +110,14 @@ namespace Desktop_Mascot
             // Console.WriteLine("form size : " + this.Width + " / " + this.Height);
         }
 
-        private void showchild(string path)
+        private void showchild(string path,int posx,int posy)
         {
             Form2 f = new Form2();
             f.ShowInTaskbar = false;
             f.Show(this);
             f.path = path;
+            f.PosX = posx;
+            f.PosY = posy;
             f.showimg(f.path);
             //clear form border
             f.FormBorderStyle = FormBorderStyle.None;
@@ -171,7 +178,7 @@ namespace Desktop_Mascot
                 }
                 else
                 {
-                    showchild(task.location);
+                    showchild(task.location,task.posX,task.posY);
 
                 }
             }
