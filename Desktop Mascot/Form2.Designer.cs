@@ -1,16 +1,16 @@
 ﻿namespace Desktop_Mascot
 {
-    partial class Form1
+    partial class Form2
     {
         /// <summary>
-        /// 必要なデザイナー変数です。
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// 使用中のリソースをすべてクリーンアップします。
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">マネージ リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,11 +20,11 @@
             base.Dispose(disposing);
         }
 
-        #region Windows フォーム デザイナーで生成されたコード
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// デザイナー サポートに必要なメソッドです。このメソッドの内容を
-        /// コード エディターで変更しないでください。
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -46,11 +46,9 @@
             this.画像追加aToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(153, 114);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // 終了xToolStripMenuItem
             // 
-            this.終了xToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.終了xToolStripMenuItem.Name = "終了xToolStripMenuItem";
             this.終了xToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.終了xToolStripMenuItem.Text = "終了&x";
@@ -77,16 +75,15 @@
             this.画像追加aToolStripMenuItem.Text = "画像追加&a";
             this.画像追加aToolStripMenuItem.Click += new System.EventHandler(this.画像追加aToolStripMenuItem_Click);
             // 
-            // Form1
+            // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.ContextMenuStrip = this.contextMenuStrip1;
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Name = "Form2";
+            this.Text = "Form2";
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -101,4 +98,3 @@
         private System.Windows.Forms.ToolStripMenuItem 画像追加aToolStripMenuItem;
     }
 }
-
