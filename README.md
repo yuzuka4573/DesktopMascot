@@ -9,4 +9,10 @@ C#ならできるだろうと思って作ってみたアレ実は半年前のリ
 対応ファイルはjpg png bmp とかかな？(未検証)
   
 ## issue  
-一旦作り終わるまでちょっとまってね
+一旦作り終わるまでちょっとまってね  
+  
+## other  
+Json扱うのに"json.net"使ってます ( http://www.newtonsoft.com/json )  
+  
+マスコット関連のコードは以下のサイト参考（改良）  
+http://skylinker.blog.fc2.com/blog-entry-29.html  
