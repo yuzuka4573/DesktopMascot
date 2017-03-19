@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
-
+using System.Threading;
 namespace Desktop_Mascot
 {
     public partial class Form1 : Form
@@ -18,6 +18,13 @@ namespace Desktop_Mascot
         public string path;
         public bool imgAct = true;
         public bool setFront = false;
+        public int IDs = 0;
+        public List<jsons> _data = new List<jsons>();
+        public string[,] formdatas = new string[999, 5];
+        
+        //  private List<jsons> formdata = new List<jsons>();
+        //public string[] formdata = new string[9999];
+        Form2 fs;
         // set json settings
         public class jsons
         {
@@ -27,6 +34,7 @@ namespace Desktop_Mascot
             public int posX { get; set; } //position X int
             public int posY { get; set; }//position Y int
         }
+
 
         public Form1()
         {
@@ -116,7 +124,7 @@ namespace Desktop_Mascot
             // Console.WriteLine("form size : " + this.Width + " / " + this.Height);
         }
 
-        private void showchild(string path,int posx,int posy)
+        private void showchild(string path, int posx, int posy, int id)
         {
             Form2 f = new Form2();
             f.ShowInTaskbar = false;
@@ -124,6 +132,7 @@ namespace Desktop_Mascot
             f.path = path;
             f.PosX = posx;
             f.PosY = posy;
+            f.ID = id;
             f.showimg(f.path);
             //clear form border
             f.FormBorderStyle = FormBorderStyle.None;
@@ -168,25 +177,25 @@ namespace Desktop_Mascot
 
         void read_json(string json_path)
         {
-            bool lst = true; //check 1st img or not
             //read json file as string
             var text = File.ReadAllText(json_path);
             //collect data in "ByJson"
             var ByJson = JsonConvert.DeserializeObject<List<jsons>>(text);
             //show all
+            IDs = 0;
             foreach (var task in ByJson)
             {
                 //1st img only
-                if (lst == true)
+                if (IDs == 0)
                 {
                     show(task.location);
-                    lst = false;
                 }
                 else
                 {
-                    showchild(task.location,task.posX,task.posY);
+                    showchild(task.location, task.posX, task.posY, IDs);
 
                 }
+                IDs++;
             }
 
 
@@ -194,7 +203,6 @@ namespace Desktop_Mascot
 
         void write_json()
         {
-            List<jsons> _data = new List<jsons>();
 
             _data.Add(new jsons()
             {
@@ -204,8 +212,32 @@ namespace Desktop_Mascot
                 posX = this.Left,
                 posY = this.Top
             });
-            string json = JsonConvert.SerializeObject(_data.ToArray());
+            /* for (int c = 0; c < formdata.Length; c++) {
+                 _data.Add(new jsons(),formdata[c]);
+             }*/
+            Thread.Sleep(1000);
+/*            while (!(fs.IsDisposed || fs == null))
+            {
+                //waiting
+            }*/
+            for (int count = 0; count < formdatas.GetLength(0); count++)
+            {
+                if (formdatas[count, 0] != null && formdatas[count, 1] != null && formdatas[count, 2] != null && formdatas[count, 3] != null && formdatas[count, 4] != null)
+                {
+                    _data.Add(new jsons()
+                    {
+                        act = Convert.ToBoolean(formdatas[count, 0]),
+                        tMost = Convert.ToBoolean(formdatas[count, 1]),
+                        location = formdatas[count, 2],
+                        posX = int.Parse(formdatas[count, 3]),
+                        posY = int.Parse(formdatas[count, 4])
+                    });
+                }
+                else break;
+            }
 
+            string json = JsonConvert.SerializeObject(_data.ToArray());
+            Console.WriteLine(json);
             //write string to file
             File.WriteAllText(@"config.json", json);
         }

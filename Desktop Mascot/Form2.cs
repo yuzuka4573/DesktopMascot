@@ -12,6 +12,7 @@ using System.IO;
 
 namespace Desktop_Mascot
 {
+
     public partial class Form2 : Form
     {
         public string json;
@@ -20,6 +21,9 @@ namespace Desktop_Mascot
         public bool setFront = false;
         public int PosX;
         public int PosY;
+        public int ID;
+        public Form1 form1;
+        
 
         public class jsons
         {
@@ -29,24 +33,6 @@ namespace Desktop_Mascot
             public int posX { get; set; } //position X int
             public int posY { get; set; }//position Y int
         }
-
-        // Field which is holdning form 1 objects
-        private static Form1 _form1Instance;
-
-        // Properties for getting / setting form 1 objects
-        public static Form1 Form1Instance
-        {
-            get
-            {
-                return _form1Instance;
-            }
-            set
-            {
-                _form1Instance = value;
-            }
-        }
-
-
 
 
 
@@ -99,7 +85,8 @@ namespace Desktop_Mascot
             this.lastMousePosition = mp;
         }
 
-        private int checkpos(int num) {
+        private int checkpos(int num)
+        {
             if (num < 0) return 0;
             else return num;
         }
@@ -161,28 +148,25 @@ namespace Desktop_Mascot
 
         void write_json()
         {
-            List<jsons> _data = new List<jsons>();
 
-            _data.Add(new jsons()
-            {
-                act = imgAct,
-                tMost = setFront,
-                location = path,
-                posX = this.Left,
-                posY = this.Top
-            });
-            string json = JsonConvert.SerializeObject(_data.ToArray());
+            form1.formdatas[ID, 0] = imgAct.ToString(); //act
+            form1.formdatas[ID, 1] = setFront.ToString(); //tMost
+            form1.formdatas[ID, 2] = path; //location
+            form1.formdatas[ID, 3] = this.Left.ToString(); //posx
+            form1.formdatas[ID, 4] = this.Top.ToString(); //posy
 
-            //write string to file
-            File.WriteAllText(@"config.json", json);
+            //this function is sending value to form1
+
         }
 
         private void 終了xToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //write some info to json file
+
+
             write_json();
             //stop
-            Environment.Exit(0);
+            Dispose();
         }
 
         private void 画像変更eToolStripMenuItem_Click(object sender, EventArgs e)
