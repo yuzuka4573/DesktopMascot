@@ -21,7 +21,8 @@ namespace Desktop_Mascot
         public int IDs = 0;
         public List<jsons> _data = new List<jsons>();
         public string[,] formdatas = new string[999, 5];
-        
+        public string finallyJson;
+
         //  private List<jsons> formdata = new List<jsons>();
         //public string[] formdata = new string[9999];
         Form2 fs;
@@ -174,15 +175,19 @@ namespace Desktop_Mascot
             }
         }
 
-
         void read_json(string json_path)
         {
             //read json file as string
             var text = File.ReadAllText(json_path);
+            Console.WriteLine("var text value");
+            Console.WriteLine(text);
             //collect data in "ByJson"
             var ByJson = JsonConvert.DeserializeObject<List<jsons>>(text);
+            Console.WriteLine("ByJson text value");
+            Console.WriteLine(ByJson);
             //show all
             IDs = 0;
+
             foreach (var task in ByJson)
             {
                 //1st img only
@@ -190,14 +195,25 @@ namespace Desktop_Mascot
                 {
                     show(task.location);
                 }
+
                 else
                 {
-                    showchild(task.location, task.posX, task.posY, IDs);
+
+                    try
+                    {
+                        showchild(task.location, task.posX, task.posY, IDs);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("something is wrong! check error!");
+                        Console.WriteLine(e);
+                        //reset pos
+                        showchild(task.location, 0, 0, IDs);
+                    }
 
                 }
                 IDs++;
             }
-
 
         }
 
@@ -212,14 +228,9 @@ namespace Desktop_Mascot
                 posX = this.Left,
                 posY = this.Top
             });
-            /* for (int c = 0; c < formdata.Length; c++) {
-                 _data.Add(new jsons(),formdata[c]);
-             }*/
+
             Thread.Sleep(1000);
-/*            while (!(fs.IsDisposed || fs == null))
-            {
-                //waiting
-            }*/
+
             for (int count = 0; count < formdatas.GetLength(0); count++)
             {
                 if (formdatas[count, 0] != null && formdatas[count, 1] != null && formdatas[count, 2] != null && formdatas[count, 3] != null && formdatas[count, 4] != null)
@@ -236,16 +247,17 @@ namespace Desktop_Mascot
                 else break;
             }
 
-            string json = JsonConvert.SerializeObject(_data.ToArray());
-            Console.WriteLine(json);
+            finallyJson = JsonConvert.SerializeObject(_data.ToArray());
+            Console.WriteLine("////////// MEMORY FILE //////////\r\n\r\n");
+            Console.WriteLine(finallyJson);
+            Console.WriteLine("\r\n\r\n////////// MEMORY FILE //////////");
             //write string to file
-            File.WriteAllText(@"config.json", json);
+            File.WriteAllText(@"config.json", finallyJson);
+           // Console.ReadKey();
         }
 
         private void 終了xToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //write some info to json file
-            write_json();
             //stop
             Environment.Exit(0);
         }
@@ -314,6 +326,19 @@ namespace Desktop_Mascot
                 f.Show(this);
                 f.path = ofd.FileName;
                 f.showimg(f.path);
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = false;
+            //write some info to json file
+            write_json();
+
+            if (MessageBox.Show(finallyJson, "MEMORY FILE", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+            {
+                e.Cancel = true;
+
             }
         }
     }

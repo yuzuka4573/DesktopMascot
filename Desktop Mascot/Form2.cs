@@ -161,12 +161,8 @@ namespace Desktop_Mascot
 
         private void 終了xToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //write some info to json file
-
-
-            write_json();
-            //stop
-            Dispose();
+            // kill program
+            Environment.Exit(0);
         }
 
         private void 画像変更eToolStripMenuItem_Click(object sender, EventArgs e)
@@ -229,6 +225,23 @@ namespace Desktop_Mascot
                 f.path = ofd.FileName;
                 f.showimg(f.path);
             }
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //write some info to json file
+            write_json();
+        }
+
+        private void 画像削除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //form delete ( Owner is still alive )
+            Dispose();
         }
     }
 }
